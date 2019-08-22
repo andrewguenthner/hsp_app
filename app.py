@@ -31,7 +31,6 @@ class Solvents(db.Model):
 
     solvent_id = db.Column(db.Text, primary_key=True)
     nlm_num = db.Column(db.String())
-    subst_short_name = db.Column(db.String())
     subst_display_name = db.Column(db.String())
     subst_category = db.Column(db.String())
     delta_d = db.Column(db.Float())
@@ -72,7 +71,6 @@ class Substances(db.Model):
     substance_id = db.Column(db.Text, primary_key=True)
     nlm_num = db.Column(db.String())
     subst_display_name = db.Column(db.String())
-    subst_category = db.Column(db.String())
     delta_d = db.Column(db.Float())
     delta_p = db.Column(db.Float())
     delta_h = db.Column(db.Float())
@@ -156,10 +154,11 @@ def home():
     """Render Home Page."""
     return render_template("base.html")
 
-@app.route("/estimate/<substance>")
-def estimate_hsp(substance):
+@app.route("/estimate_only/<substance>")
+def get_computed_hsp(substance):
     """Look up substance and return delta_d, delta_p, delta_h as JSON dict, with
-    added data of substance display name, molecular volume, and source info"""
+    added data of substance display name, molecular volume, and source info.  Uses
+    only the available computed values, not experimental values."""
     #Check input to make sure only allowed characters are included
     substance_check_pattern = re.compile('[\W_]+', re.UNICODE)
     substance_check = substance_check_pattern.sub('',substance,count=-1)
@@ -185,6 +184,55 @@ def estimate_hsp(substance):
         output_dict['src_id'] = hsp_result.src_id
     else:
         output_dict['valid'] = False
+
+    return jsonify(output_dict)
+
+@app.route("/estimate/<substance>")
+def estimate_hsp(substance):
+    """Look up substance and return delta_d, delta_p, delta_h as JSON dict, with
+    added data of substance display name, molecular volume, and source info.  Looks
+    for experimental values first, then falls back on computed values from the
+    estimates_only route."""
+
+    polymers_checked = False
+    
+    #Check input to make sure only allowed characters are included
+    substance_check_pattern = re.compile('[\W_]+', re.UNICODE)
+    substance_check = substance_check_pattern.sub('',substance,count=-1)
+    if substance_check != substance:  #Will happen only if input has been corrupted
+        return jsonify({'valid':False})
+    
+    #Query the solvents table first for experimental values
+    exp_hsp_result = db.session.query(Solvents).\
+        select_from(Substance_names).\
+        join(Solvents,Substance_names.nlm_num == Solvents.nlm_num).\
+        filter(Substance_names.subst_short_name == substance).first()
+    
+    #Then query the polymers table for experimental values.  Note that 
+    #the polymers table does not use nlm numbers, only short names 
+    if not exp_hsp_result:
+        polymers_checked = True
+        exp_hsp_result = db.session.query(Polymers).\
+            filter(Polymers.subst_short_name == substance).first()
+
+    output_dict = {}
+    if exp_hsp_result:
+        output_dict['valid'] = True
+        output_dict['display_name'] = exp_hsp_result.subst_display_name
+        output_dict['delta_d'] = exp_hsp_result.delta_d
+        output_dict['delta_p'] = exp_hsp_result.delta_p
+        output_dict['delta_h'] = exp_hsp_result.delta_h
+        output_dict['src_id'] = exp_hsp_result.src_id
+        if polymers_checked:
+            output_dict['R0'] = exp_hsp_result.R0
+            output_dict['mol_vol'] = 'n/a'
+        else:
+            output_dict['mol_vol'] = exp_hsp_result.mol_vol
+            output_dict['R0'] = 'n/a'
+    else:  #No results from either table 
+        estimator_url = "/estimate_only/" + substance
+        return redirect(estimator_url)
+
 
     return jsonify(output_dict)
 

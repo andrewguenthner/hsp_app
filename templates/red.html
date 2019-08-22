@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>How Hansen Parameters Work</title>
+    
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+<!-- Libraries -->
+
+<!-- d3 JS -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+<!-- ajax // Plotly -->   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <!--Collapsable navigation bar: common to all pages-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <img src="{{ url_for('static',filename='images/guenthner-extra-small.png') }}" width="28" height="35" class="d-inline-block align-top rounded-circle mr-3" alt="">
+        <a class="navbar-brand" href="https://andrewguenthner.com">Andrew Guenthner</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+            <a class="nav-link" href="/">HSP Main Page<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                    <a class="nav-link" href="red.html">How HSP Works<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        </div>.
+    </nav>
+    <!--Main body on landing page -->
+    <div class="jumbotron" id="title-holder"><h2>How Hansen Parameters Work</h2></div>
+
+    <div class="container">
+    In brief, Hansen Solubility Parameters are a way of categorizing the solubility 
+    behavior of all known substances in a systematic way using three "parametric" 
+    dimensions.  These are not real spatial dimensions, but they are a way of imagining 
+    the properties of any substance as if the substance existed at a fixed location in space.
+    In the case of Hansen Solubility Parameters, the space is three-dimensional, and each 
+    of three Hansen Solubility Parameters (called "delta-d", "delta-p", and "delta-h") 
+    represents both an axis (or principal direction) in the "parameter space" as well as 
+    an aspect of solubility behavior.  Hansen Solubility Parameters are somewhat special in 
+    that they can be given a plausible physical interpretation, in which the squared values of 
+    the parameters correspond to the amounts of various forms of energy that hold matter together. 
+    For the more chemically inclined, "delta-<bold>d</bold>>" squared corresponds to the <bold>d</bold>>ispersive energy of 
+    attraction, "delta-<bold>p</bold>" squared to dipole-dipole (<bold>p</bold>olar) energy, and "delta-<bold>h</bold>>" to electron exchange 
+    energy (often described as "<bold>h</bold>>ydrogen bonding").
+
+    The crux of Hansen Solubility Parameter theory is that molecules bound by the same levels of 
+    attractive energies are indistinguishable (i.e. since the attractive forces are the same, there is 
+    no way for the surrounding molecules to notice a difference) and therefore diffuse into one another 
+    readily, a process we observe as dissolution.  What this means in terms of "parameter space" is that 
+    the farther apart two substances are, the less likely they are to make a good solute-solvent pair.  
+    Semi-empirically, the theory works better if distances along the "d" axis are multiplied by two, giving 
+    rise to a special kind of "distance" in the "parameter space" called "relative energy distance" (or "RED") 
+    for short.  A "RED" of zero means two substances should be perfectly compatible, while a large "RED" indicates 
+    substances will not be miscible or soluble.  The "RED" is typically normalized so that values of "RED" greater 
+    than one indicate poor solubility, however, for many substances, the cut-off may not be known.  In that case, "RED" 
+    values can have units (such as Joules per cubic centimeter, or J/cc, which is the most common.)
+ 
+    </div>
+    
+    <!-- Footer -->
+    <div class="container mt-2 mt-md-5 text-light bg-secondary">
+            Last updated 08-18-2019 by Andrew Guenthner.  Released under the 
+            <a class="container-link text-warning" href="https://opensource.org/licenses/MIT" target="_blank">
+                MIT Open Source License</a>
+    </div>
+    <script src="{{ url_for('static', filename='js/sliders.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -56,7 +56,7 @@ function write_multisolvent_table_html (info)
             <th scope="col">Delta p</th>
             <th scope="col">Delta h</th>
             <th scope="col">Mol. Vol.</th>
-            <th scope="col"><a href="red.html">RED</a></th>
+            <th scope="col"><a href="red.html" target="blank">RED</a></th>
           </tr>
         </thead>
         <tbody>`;

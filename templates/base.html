@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hansen Solubility Parameters</title>
+    <title>Hansen Solubility Parameter Calculator</title>
     
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
@@ -32,7 +32,10 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-            <a class="nav-link" href="/">HSP Main Page<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="base.html">HSP Main Page<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                    <a class="nav-link" href="red.html">How HSP Works<span class="sr-only">(current)</span></a>
             </li>
         </ul>
         </div>.
@@ -47,10 +50,14 @@
             <div id="plot_3d"></div>
             <form id="user_input">
             Enter a substance name:<br>
-            <input type="text" class="form-control" id="substance_0" name="substance_name" placeholder="substance name" aria-placeholder="name of substance, can omit non alphanumerics">
+            <input type="text" class="form-control" id="substance_0" name="substance_name" placeholder="substance name (e.g. acetone)" aria-placeholder="name of substance, can omit non alphanumerics">
+            You can type the chemical name of any compound in the <a href=https://chem.nlm.nih.gov/chemidplus/ target="blank"> 
+            National Library of Medicine TOXNET database</a>, including synonyms.  Punctuation is ignored.<br>
             <input type="submit" id="user_submit" value="Submit"></form>
             <br>
-            <div class="row d-flex justify-content-center" id="prop_setter"><h3>Filter Results</h3>
+            <div class="row d-flex justify-content-center" id="prop_setter"><h3>Filter Results</h3><br>
+                Only solvents and non-solvents with properties within the ranges you select will be displayed.<br>
+                Selecting the entire range will disable filtering on that particular property altogether.
             </div><br>
             <div class="row d-flex justify-content-between" id="bp_control">
                 <span class="w-25" id="bp_label">Boiling Point</span>
@@ -99,7 +106,8 @@
         <div class="col-md-6" id="output_col">
             <div id="est_hsp"></div>
             <div class="row d-flex justify-content-center" id="best_solv_title"></div>
-            <div class="row d-flex" id="best_solv"></div>
+            <div class="row d-flex" id="best_solv">Hansen Solubility Parameters for the substance, and 
+                information about solvents and non-solvents, will appear here</div>
             <div class="row d-flex justify-content-center" id="worst_solv_title"></div>
             <div class="row d-flex" id="worst_solv"></div>
         </div>
