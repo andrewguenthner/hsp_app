@@ -1,11 +1,8 @@
-.jumbotron{
-    background: url("../images/hsp_background.png") no-repeat center center; 
+#title-holder{
+	background: url("../images/hsp_background.png") no-repeat center center; 
     -webkit-background-size: 100% 100%;
     -moz-background-size: 100% 100%;
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
-}
-
-#title-holder{
     text-align: center;
 }

@@ -8,7 +8,7 @@ function round(value, decimals)
 
 function alert_no_params ()
     {
-        alert("No parameters for that compound were found.  \n Try a synonym, or a more common analog.")
+        alert("The site attempted to build a table without valid parameters.  Please contact the administrator.");
     }
 
 function alert_promise_rejected ()
@@ -37,10 +37,10 @@ function write_hsp_table_html (info)
         <tbody>
           <tr>
             <th scope="row">${info.display_name}</th>
-            <td>${+info.delta_d}</td>
-            <td>${+info.delta_p}</td>
-            <td>${+info.delta_h}</td>
-            <td>${+info.mol_vol}</td>
+            <td>${round(+info.delta_d,1)}</td>
+            <td>${round(+info.delta_p,1)}</td>
+            <td>${round(+info.delta_h,1)}</td>
+            <td>${round(+info.mol_vol,0)}</td>
           </tr>
         </tbody>
       </table>`
@@ -63,10 +63,10 @@ function write_multisolvent_table_html (info)
         info.forEach( function(row_data) {
             table_string += ` <tr>
             <th scope="row">${row_data.subst_display_name}</th>
-            <td>${+row_data.delta_d}</td>
-            <td>${+row_data.delta_p}</td>
-            <td>${+row_data.delta_h}</td>
-            <td>${+row_data.mol_vol}</td>
+            <td>${round(+row_data.delta_d,1)}</td>
+            <td>${round(+row_data.delta_p,1)}</td>
+            <td>${round(+row_data.delta_h,1)}</td>
+            <td>${round(+row_data.mol_vol,0)}</td>
             <td>${round(+row_data.RED,1)}</td>
           </tr>`
         });
@@ -238,11 +238,28 @@ function build_nonsolvents_table(filter_string, params)
 
 function build_tables(data) 
     {   
-        build_hsp_table(data);
-        create_hsp_plot(data);
-        filter_info = get_filter_info();
-        build_solvents_table(filter_info, data);
-        build_nonsolvents_table(filter_info, data);
+        if (data.delta_d > 0) {
+            build_hsp_table(data);
+            create_hsp_plot(data);
+            filter_info = get_filter_info();
+            build_solvents_table(filter_info, data);
+            build_nonsolvents_table(filter_info, data);
+        }
+        else {
+            d3.select("#est_hsp")
+                .html("")
+                .text("No valid Hansen Solubility Parameters were found");
+            d3.select("#best_solv_title")
+                .html("");
+            d3.select("#best_solv")
+                .html("");
+            d3.select("#worst_solv_title")
+                .html("");
+            d3.select("#worst_solv")
+                .html("");
+            d3.select("#plot_3d")
+                .html("");
+        }
     }
 
 function process_input ()

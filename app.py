@@ -154,7 +154,7 @@ def home():
     """Render Home Page."""
     return render_template("base.html")
 
-@app.route("/estimate_only/<substance>")
+@app.route("/estimate_only/<substance>/")
 def get_computed_hsp(substance):
     """Look up substance and return delta_d, delta_p, delta_h as JSON dict, with
     added data of substance display name, molecular volume, and source info.  Uses
@@ -187,7 +187,7 @@ def get_computed_hsp(substance):
 
     return jsonify(output_dict)
 
-@app.route("/estimate/<substance>")
+@app.route("/estimate/<substance>/")
 def estimate_hsp(substance):
     """Look up substance and return delta_d, delta_p, delta_h as JSON dict, with
     added data of substance display name, molecular volume, and source info.  Looks
@@ -236,7 +236,7 @@ def estimate_hsp(substance):
 
     return jsonify(output_dict)
 
-@app.route("/solvents/<delta_d>/<delta_p>/<delta_h>/<filter_params>")
+@app.route("/solvents/<delta_d>/<delta_p>/<delta_h>/<filter_params>/")
 def best_solvents(delta_d, delta_p, delta_h,filter_params):
     """Search solvents on the basis of RED (sorted ascending) with given Hansen parameters, and with
     a formatted string indicating filter parameters.  See the function parse_filter_params
@@ -269,7 +269,7 @@ def best_solvents(delta_d, delta_p, delta_h,filter_params):
     results_list = solvent_df.head().fillna('').to_dict(orient='records')
     return jsonify(results_list)
 
-@app.route("/nonsolvents/<delta_d>/<delta_p>/<delta_h>/<filter_params>")
+@app.route("/nonsolvents/<delta_d>/<delta_p>/<delta_h>/<filter_params>/")
 def worst_solvents(delta_d, delta_p, delta_h, filter_params):
     """Search solvents on the basis of RED (sorted descending) with given Hansen parameters, and with
     a formatted string indicating filter parameters.  See the function parse_filter_params
@@ -301,6 +301,18 @@ def worst_solvents(delta_d, delta_p, delta_h, filter_params):
     # Limit output to top 5
     results_list = solvent_df.head().fillna('').to_dict(orient='records')
     return jsonify(results_list)
+
+@app.route("/base.html/")
+def basepage():
+    """Render Home Page."""
+    return render_template("base.html")
+
+@app.route("/red.html/")
+def red():
+    """Render RED Page."""
+    return render_template("red.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
