@@ -48,6 +48,7 @@
         <div class="row">
         <div class="col-md-6" id="input_col">
             <div id="plot_3d"></div>
+            <div id="est_hsp"></div>
             <form id="user_input">
             Enter a substance name:<br>
             <input type="text" class="form-control" id="substance_0" name="substance_name" placeholder="substance name (e.g. acetone)" aria-placeholder="name of substance, can omit non alphanumerics">
@@ -104,10 +105,9 @@
         </div>
 
         <div class="col-md-6" id="output_col">
-            <div id="est_hsp"></div>
             <div class="row d-flex justify-content-center" id="best_solv_title"></div>
-            <div class="row d-flex" id="best_solv">Hansen Solubility Parameters for the substance, and 
-                information about solvents and non-solvents, will appear here</div>
+            <div class="row d-flex" id="best_solv">
+                information about solvents and non-solvents will appear here</div>
             <div class="row d-flex justify-content-center" id="worst_solv_title"></div>
             <div class="row d-flex" id="worst_solv"></div>
         </div>

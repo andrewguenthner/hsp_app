@@ -1,4 +1,10 @@
 filter_types = ['bp','fp','cs','ch','ce','cr']
+source_string = ['unknown source',
+                 "experimental data published by Hansen in Hansen Solubility Parameters, a User's Handbook, 2nd ed., CRC Press, 2007",
+                 "unconfirmed",
+                 "CRC Handbook of Solubility Parameters (Polymers Table)",
+                 "Javier Camacho  Eduardo Díez  Ismael Díaz  Gabriel Ovejero, Hansen solubility parameter: from polyethylene and poly(vinyl acetate) homopolymers to ethylene–vinyl acetate copolymers, Polymer International, 66, 5351, First published: 14 February 2017 https://doi.org/10.1002/pi.5351"]
+                 
 
 function round(value, decimals)
     // published by Jack Moore at https://www.jacklmoore.com/notes/rounding-in-javascript/
@@ -17,6 +23,11 @@ function alert_promise_rejected ()
         alert("Your request could not be processed. \n Please contact the administrator.");
     }
 
+function print_source_data (source_id)
+    {
+        return source_string[source_id]
+    }
+
 function color_by_label (label_name)
     {
         return (label_name == "good solvents" ? "green" : "brown")
@@ -28,10 +39,10 @@ function write_hsp_table_html (info)
         <thead>
           <tr>
             <th scope="col">Substance</th>
-            <th scope="col">Delta d</th>
-            <th scope="col">Delta p</th>
-            <th scope="col">Delta h</th>
-            <th scope="col">Mol. Vol.</th>
+            <th scope="col">Delta d (J/cc)<sup>1/2</sup></th>
+            <th scope="col">Delta p (J/cc)<sup>1/2</sup></th>
+            <th scope="col">Delta h (J/cc)<sup>1/2</sup></th>
+            <th scope="col">Mol. Vol. (cc/mol)</th>
           </tr>
         </thead>
         <tbody>
@@ -52,11 +63,11 @@ function write_multisolvent_table_html (info)
         <thead>
           <tr>
             <th scope="col">Substance</th>
-            <th scope="col">Delta d</th>
-            <th scope="col">Delta p</th>
-            <th scope="col">Delta h</th>
-            <th scope="col">Mol. Vol.</th>
-            <th scope="col"><a href="red.html" target="blank">RED</a></th>
+            <th scope="col">Delta d (J/cc)<sup>1/2</sup></th>
+            <th scope="col">Delta p (J/cc)<sup>1/2</sup></th>
+            <th scope="col">Delta h (J/cc)<sup>1/2</sup></th>
+            <th scope="col">Mol. Vol. (cc/mol) </th>
+            <th scope="col"><a href="red.html" target="blank">RED</a> (J/cc)<sup>1/2</sup></th>
           </tr>
         </thead>
         <tbody>`;
@@ -108,10 +119,10 @@ function build_hsp_table(params)
         if (params.valid) {
             d3.select("#est_hsp")
                 .html(write_hsp_table_html(params));
-            if (+params.src_id == 1) {
+            if((+params.src_id > 0) && (+params.src_id < 5)) {
                 d3.select("#est_hsp")
                     .append("p")
-                    .text("These are experiment-based parameters reported by Hansen.")
+                    .text(`Data source: ${print_source_data(+params.src_id)}`)
             };
         }
         else {
@@ -248,7 +259,7 @@ function build_tables(data)
         else {
             d3.select("#est_hsp")
                 .html("")
-                .text("No valid Hansen Solubility Parameters were found");
+                .text(`No valid Hansen Solubility Parameters were found for ${data.display_name}`);
             d3.select("#best_solv_title")
                 .html("");
             d3.select("#best_solv")
